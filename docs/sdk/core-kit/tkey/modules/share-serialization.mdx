@@ -7,7 +7,8 @@ description: "Core Kit tKey SDK - Modules -  Share Serialization | Documentation
 
 #### [`@tkey/share-serialization`](https://npmjs.com/package/@tkey/share-serialization)
 
-The Share Serialization Module helps you import/ export a share from `tKey`.
+The Share Serialization Module helps you serialize the share so you can import/ export a share from
+`tKey`.
 
 ## Installation
 
@@ -24,8 +25,8 @@ const shareSerializationModule = new ShareSerializationModule();
 
 ## Usage
 
-With the `ShareSerializationModule`, you have access to the multiple functions as mentioned in the type reference, however, the most important ones
-are:
+With the `ShareSerializationModule`, you have access to the multiple functions as mentioned in the
+type reference, however, the most important ones are:
 
 ### Serialize a Share
 
@@ -40,7 +41,9 @@ are:
 ```tsx
 const generateShareResult = await tKeyInstance.generateNewShare();
 const share = await tKeyInstance.outputShareStore(generateShareResult.newShareIndex).share.share;
-const mnemonic = await(tKeyInstance.modules.shareSerialization as ShareSerializationModule).serialize(share, "mnemonic");
+const mnemonic = await(
+  tKeyInstance.modules.shareSerialization as ShareSerializationModule,
+).serialize(share, "mnemonic");
 ```
 
 ### Deserialize a Share
@@ -54,7 +57,9 @@ const mnemonic = await(tKeyInstance.modules.shareSerialization as ShareSerializa
 #### Example
 
 ```tsx
-const share = await(tKeyInstance.modules.shareSerialization as ShareSerializationModule).deserialize(mnemonic, "mnemonic");
+const share = await(
+  tKeyInstance.modules.shareSerialization as ShareSerializationModule,
+).deserialize(mnemonic, "mnemonic");
 await tKeyInstance.inputShare(share);
 ```
 
