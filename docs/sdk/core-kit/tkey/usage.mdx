@@ -1,7 +1,6 @@
 ---
 title: Using tKey JS SDK
 sidebar_label: Usage
-displayed_sidebar: sdk
 description: "Web3Auth Core Kit tKey JS SDK - Usage | Documentation - Web3Auth"
 ---
 
@@ -39,10 +38,15 @@ The login with the tKey SDK is a 3-step process.
 However, before starting this process, you need to set up Custom Authentication on your Web3Auth
 Dashboard. For this, you need to [Create a Verifier](/auth-provider-setup/verifiers) within the
 [Web3Auth Developer Dashboard](https://dashboard.web3auth.io) with your desired configuration.
+However, before starting this process, you need to set up Custom Authentication on your Web3Auth
+Dashboard. For this, you need to [Create a Verifier](/auth-provider-setup/verifiers) within the
+[Web3Auth Developer Dashboard](https://dashboard.web3auth.io) with your desired configuration.
 
 :::tip
 
 If you want to know more about setting up a verifier and how to use it, please refer to the
+[Auth Provider Setup Documentation](/auth-provider-setup). If you want to know more about setting up
+a verifier and how to use it, please refer to the
 [Auth Provider Setup Documentation](/auth-provider-setup).
 
 :::
@@ -59,6 +63,9 @@ documentation around OAuth Provider setup [here](/auth-provider-setup).
 If you prefer using an implicit login method with your OAuth Provider, you can do so by using the
 `TorusServiceProvider`. You can check out the
 [additional reading section](/sdk/core-kit/tkey/intrinsic-flow) for more information. This provider
+doesn't work in a React Native environment. If you prefer using an implicit login method with your
+OAuth Provider, you can do so by using the `TorusServiceProvider`. You can check out the
+[additional reading section](/sdk/core-kit/tkey/intrinsic-flow) for more information. This provider
 doesn't work in a React Native environment.
 
 :::
@@ -67,7 +74,9 @@ doesn't work in a React Native environment.
 
 This setup helps you generate a private key which will be needed by the tKey Instance to generate
 the OAuth Share. This is done by calling the `connect()` function within the `tKey` instance's
-`serviceProvider`.
+`serviceProvider`. This setup helps you generate a private key which will be needed by the tKey
+Instance to generate the OAuth Share. This is done by calling the `connect()` function within the
+`tKey` instance's `serviceProvider`.
 
 ```tsx
 tKeyInstance.serviceProvider.connect(params: LoginParams): Promise<BN>;
@@ -90,7 +99,9 @@ const OAuthShareKey = await(tKeyInstance.serviceProvider as SfaServiceProvider).
 #### `initialize(params?: TKeyInitArgs)`
 
 Once you have triggered the login process, you're ready to initialize the tKey. This will generate a
-Threshold Key corresponding to your login provider.
+Threshold Key corresponding to your login provider. Once you have triggered the login process,
+you're ready to initialize the tKey. This will generate a Threshold Key corresponding to your login
+provider.
 
 #### Parameters
 
@@ -118,10 +129,18 @@ From here, you can know whether the user key can be reconstructed or not.
 - Once the `requiredShares` is 0 or less than that, then the key can be reconstructed, and the user
   can use the shares to generate the private key and make further operations on the tKey and
   manipulate their keys.
+- If the `requiredShares` is greater than 0, then the key cannot be reconstructed, because this
+  means that the user has not yet generated enough shares to meet the threshold.
+- Once the `requiredShares` is 0 or less than that, then the key can be reconstructed, and the user
+  can use the shares to generate the private key and make further operations on the tKey and
+  manipulate their keys.
 
 ```tsx title="Example"
 const { requiredShares } = tKey.getKeyDetails();
 if (requiredShares <= 0) {
+  console.log(
+    "All shares are present, you can reconstruct your private key and do operations on the tKey",
+  );
   console.log(
     "All shares are present, you can reconstruct your private key and do operations on the tKey",
   );
@@ -135,7 +154,9 @@ if (requiredShares <= 0) {
 #### `tKey.reconstructKey()`
 
 The function `reconstructKey()` reconstructs the private key of the user from the shares generated.
-This function returns the private key of the user once the threshold has been met.
+This function returns the private key of the user once the threshold has been met. The function
+`reconstructKey()` reconstructs the private key of the user from the shares generated. This function
+returns the private key of the user once the threshold has been met.
 
 ```tsx
 reconstructKey(_reconstructKeyMiddleware?: boolean): Promise<ReconstructedKeyResult>;
@@ -163,7 +184,8 @@ if (requiredShares <= 0) {
 #### `tKey.generateNewShare()`
 
 The function `generateNewShare()` generates a new share on the same threshold set by the user. This
-function returns the new share generated.
+function returns the new share generated. The function `generateNewShare()` generates a new share on
+the same threshold set by the user. This function returns the new share generated.
 
 ```tsx
 generateNewShare(): Promise<GenerateNewShareResult>;
@@ -207,12 +229,18 @@ console.log("Share has been deleted", shareStore);
 For making advanced operations on tKey and to manipulate the keys, you can use the modules provided
 by tKey. As mentioned in the [initialisation](/sdk/core-kit/tkey/initialize) section, you need to
 configure the modules beforehand to make it work with tKey. Once that is done, the instance of the
+respective module is available within your tKey instance and can be used for further operations. For
+making advanced operations on tKey and to manipulate the keys, you can use the modules provided by
+tKey. As mentioned in the [initialisation](/sdk/core-kit/tkey/initialize) section, you need to
+configure the modules beforehand to make it work with tKey. Once that is done, the instance of the
 respective module is available within your tKey instance and can be used for further operations.
 
 :::tip
 
 Checkout the [Modules](/sdk/core-kit/tkey/modules) section where we have listed all the available
-modules alongside the functions that can be used within them.
+modules alongside the functions that can be used within them. Checkout the
+[Modules](/sdk/core-kit/tkey/modules) section where we have listed all the available modules
+alongside the functions that can be used within them.
 
 :::
 
@@ -225,11 +253,15 @@ which is compatible with blockchains like Solana, Aptos, and etc. However, you c
 `secp256k1` key into other curves and utilize it.
 
 In addition to that, we have dedicated provider packages for EVM, Solana and XRPL libraries. You can
-check out their respective documentation in the [Providers Section](/sdk/providers/).
+check out their respective documentation in the [Providers Section](/sdk/providers/). In addition to
+that, we have dedicated provider packages for EVM, Solana and XRPL libraries. You can check out
+their respective documentation in the [Providers Section](/sdk/providers/).
 
 :::tip
 
 You can checkout our [Connect Blockchain](/connect-blockchain) documentation which has a detailed
-guide on how to connect to major blockchains out there.
+guide on how to connect to major blockchains out there. You can checkout our
+[Connect Blockchain](/connect-blockchain) documentation which has a detailed guide on how to connect
+to major blockchains out there.
 
 :::
