@@ -38,15 +38,10 @@ The login with the tKey SDK is a 3-step process.
 However, before starting this process, you need to set up Custom Authentication on your Web3Auth
 Dashboard. For this, you need to [Create a Verifier](/auth-provider-setup/verifiers) within the
 [Web3Auth Developer Dashboard](https://dashboard.web3auth.io) with your desired configuration.
-However, before starting this process, you need to set up Custom Authentication on your Web3Auth
-Dashboard. For this, you need to [Create a Verifier](/auth-provider-setup/verifiers) within the
-[Web3Auth Developer Dashboard](https://dashboard.web3auth.io) with your desired configuration.
 
 :::tip
 
 If you want to know more about setting up a verifier and how to use it, please refer to the
-[Auth Provider Setup Documentation](/auth-provider-setup). If you want to know more about setting up
-a verifier and how to use it, please refer to the
 [Auth Provider Setup Documentation](/auth-provider-setup).
 
 :::
@@ -162,11 +157,11 @@ returns the private key of the user once the threshold has been met.
 reconstructKey(_reconstructKeyMiddleware?: boolean): Promise<ReconstructedKeyResult>;
 
 export type ReconstructedKeyResult = {
-    privKey: BN;
+    secp256k1Key: BN;
     ed25519Seed?: Buffer;
     seedPhrase?: BN[];
     allKeys?: BN[];
-};
+};;
 ```
 
 ```tsx title="Example"
@@ -174,7 +169,7 @@ const { requiredShares } = tKey.getKeyDetails();
 
 if (requiredShares <= 0) {
   const reconstructedKeyResult = await tKey.reconstructKey();
-  const privateKey = reconstructedKeyResult?.privKey.toString("hex");
+  const privateKey = reconstructedKeyResult?.secp256k1Key.toString("hex");
   console.log("Private Key: ", privateKey);
 }
 ```
